@@ -2,7 +2,11 @@
 
 Turn any image into beautiful pixel art mosaics.
 
-![Screenshot](screenshots/app.png)
+## Screenshots
+
+### Main Interface
+
+![Main Interface](screenshots/GUI.png)
 
 ## Features
 
@@ -27,7 +31,21 @@ python main.py
 
 ## Gallery
 
-(Add a few example images)
+### Main Interface
+
+![Main Interface](screenshots/GUI.png)
+
+### Pixelated Output
+
+![Pixelated Output](screenshots/demo_result.png)
+
+### App in Action
+
+![App in Action](screenshots/in_action_demo.png)
+
+### macOS Installer
+
+![macOS Installer](screenshots/mac_installer.png)
 
 ## Future Plans
 
