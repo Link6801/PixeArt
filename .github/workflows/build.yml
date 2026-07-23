@@ -6,12 +6,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -24,12 +27,23 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build app
+      - name: Build macOS
+        if: runner.os == 'macOS'
         run: |
           pyinstaller --windowed --name PixeArt --icon icon.icns main.py
 
-      - name: Upload macOS build
+      - name: Build Windows
+        if: runner.os == 'Windows'
+        run: |
+          pyinstaller --windowed --name PixeArt main.py
+
+      - name: Build Linux
+        if: runner.os == 'Linux'
+        run: |
+          pyinstaller --windowed --name PixeArt main.py
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PixeArt-macOS
-          path: dist/PixeArt.app
+          name: PixeArt-${{ runner.os }}
+          path: dist/
