@@ -41,3 +41,21 @@ jobs:
       - name: Build Linux
         if: runner.os == 'Linux'
         run: pyinstaller --windowed --name PixeArt main.py
+
+      - name: Upload macOS Release
+        if: runner.os == 'macOS'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/PixeArt.app/**
+
+      - name: Upload Windows Release
+        if: runner.os == 'Windows'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/PixeArt.exe
+
+      - name: Upload Linux Release
+        if: runner.os == 'Linux'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/PixeArt
