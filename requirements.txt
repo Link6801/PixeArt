@@ -1,0 +1,9 @@
+altgraph==0.17.5
+macholib==1.16.4
+numpy==2.5.1
+opencv-python==5.0.0.93
+packaging==26.2
+pillow==12.3.0
+pyinstaller==6.21.0
+pyinstaller-hooks-contrib==2026.6
+setuptools==83.0.0
