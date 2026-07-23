@@ -14,7 +14,7 @@ Turn any image into beautiful pixel art mosaics.
 -  Adjustable Dot Size
 -  Progress Bar
 -  PNG/JPG/WebP Export
--  Native macOS App
+-  Native macOS, Windows & Linux App
 
 ## Installation
 
