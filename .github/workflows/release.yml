@@ -11,20 +11,26 @@ jobs:
   release:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        include:
+          - os: macos-latest
+            artifact: PixeArt-macOS.zip
+
+          - os: windows-latest
+            artifact: PixeArt-Windows.zip
+
+          - os: ubuntu-latest
+            artifact: PixeArt-Linux.zip
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -32,30 +38,38 @@ jobs:
 
       - name: Build macOS
         if: runner.os == 'macOS'
-        run: pyinstaller --windowed --name PixeArt --icon icon.icns main.py
+        run: |
+          pyinstaller --windowed --name PixeArt --icon icon.icns main.py
 
       - name: Build Windows
         if: runner.os == 'Windows'
-        run: pyinstaller --windowed --name PixeArt main.py
+        run: |
+          pyinstaller --windowed --name PixeArt main.py
 
       - name: Build Linux
         if: runner.os == 'Linux'
-        run: pyinstaller --windowed --name PixeArt main.py
+        run: |
+          pyinstaller --windowed --name PixeArt main.py
 
-      - name: Upload macOS Release
+      - name: Zip macOS App
         if: runner.os == 'macOS'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/PixeArt.app/**
+        run: |
+          cd dist
+          ditto -c -k --sequesterRsrc --keepParent PixeArt.app PixeArt-macOS.zip
 
-      - name: Upload Windows Release
+      - name: Zip Windows Build
         if: runner.os == 'Windows'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/PixeArt.exe
+        run: |
+          powershell Compress-Archive dist/PixeArt/* dist/PixeArt-Windows.zip
 
-      - name: Upload Linux Release
+      - name: Zip Linux Build
         if: runner.os == 'Linux'
+        run: |
+          cd dist
+          zip -r PixeArt-Linux.zip PixeArt
+
+      - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/PixeArt
+          files: |
+            dist/*.zip
