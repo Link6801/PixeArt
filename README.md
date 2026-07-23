@@ -18,7 +18,7 @@ Turn any image into beautiful pixel art mosaics.
 
 ## Installation
 
-### macOS
+### macOS, Windows & Linux
 
 Download the latest release from Releases.
 
